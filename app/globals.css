@@ -12,6 +12,7 @@
   --shell-muted: #6f6a64;
   --shell-rule: #e1dfda;
   --shell-accent: #c2410c;
+  --editor-bg: #ffffff;
   --shell-radius: 10px;
   color-scheme: light;
 }
@@ -24,6 +25,7 @@
     --shell-muted: #90918f;
     --shell-rule: #2a2c30;
     --shell-accent: #f59e0b;
+    --editor-bg: #1e1e1e;
     color-scheme: dark;
   }
 }
@@ -132,14 +134,15 @@ input {
   flex-direction: column;
 }
 
-.pane.editor { border-right: 1px solid var(--shell-rule); background: var(--shell-panel); }
+/* The editor pane carries the editor's own background so the two never seam. */
+.pane.editor {
+  border-right: 1px solid var(--shell-rule);
+  background: var(--editor-bg);
+}
 
 .editor-scroll { flex: 1; min-height: 0; overflow: auto; }
 
 .editor-scroll .cm-editor { height: 100%; }
-.editor-scroll .cm-focused { outline: none; }
-.editor-scroll .cm-content { font-size: 14px; line-height: 1.7; padding: 16px 14px 40vh; }
-.editor-scroll .cm-scroller { font-family: ui-monospace, "Cascadia Code", monospace; }
 
 .editor-hint {
   border-top: 1px solid var(--shell-rule);
@@ -149,6 +152,16 @@ input {
   display: flex;
   gap: 12px;
   align-items: center;
+  background: var(--shell-panel);
+}
+
+.editor-hint code {
+  font-family: "Cascadia Code", ui-monospace, Consolas, monospace;
+  font-size: 11px;
+  background: var(--shell-bg);
+  border: 1px solid var(--shell-rule);
+  border-radius: 4px;
+  padding: 1px 4px;
 }
 
 .preview {

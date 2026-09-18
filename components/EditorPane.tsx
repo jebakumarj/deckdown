@@ -1,21 +1,31 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import CodeMirror, { type ReactCodeMirrorRef } from "@uiw/react-codemirror";
 import { markdown } from "@codemirror/lang-markdown";
+import { languages } from "@codemirror/language-data";
 import { EditorView } from "@codemirror/view";
+import { usePrefersDark } from "@/hooks/useColorScheme";
+import { vsCodeDark, vsCodeLight } from "@/lib/editor/theme";
 import type { Deck } from "@/lib/deck";
 import { slideIndexAtOffset } from "@/lib/deck";
 import { putAsset } from "@/lib/assets";
 import { useDeckStore } from "@/lib/store";
 
-const extensions = [markdown(), EditorView.lineWrapping];
+// Fenced code blocks get real syntax highlighting, loaded on demand per language.
+const baseExtensions = [markdown({ codeLanguages: languages }), EditorView.lineWrapping];
 
 export function EditorPane({ deck }: { deck: Deck }) {
   const source = useDeckStore((state) => state.source);
   const setSource = useDeckStore((state) => state.setSource);
   const goToSlide = useDeckStore((state) => state.goToSlide);
   const addAssets = useDeckStore((state) => state.addAssets);
+
+  const prefersDark = usePrefersDark();
+  const extensions = useMemo(
+    () => [...baseExtensions, prefersDark ? vsCodeDark : vsCodeLight],
+    [prefersDark],
+  );
 
   const editorRef = useRef<ReactCodeMirrorRef>(null);
   const [dropActive, setDropActive] = useState(false);
@@ -80,12 +90,15 @@ export function EditorPane({ deck }: { deck: Deck }) {
           ref={editorRef}
           value={source}
           extensions={extensions}
+          theme="none"
           basicSetup={{
-            lineNumbers: false,
+            lineNumbers: true,
             foldGutter: false,
-            highlightActiveLine: false,
-            highlightActiveLineGutter: false,
             autocompletion: false,
+            highlightActiveLine: true,
+            highlightActiveLineGutter: true,
+            bracketMatching: true,
+            closeBrackets: false,
           }}
           onChange={setSource}
           onUpdate={(update) => {
