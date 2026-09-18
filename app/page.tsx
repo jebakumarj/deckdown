@@ -1,10 +1,13 @@
 "use client";
 
+import { Landing } from "@/components/Landing";
 import { Workspace } from "@/components/Workspace";
 import { useIsClient } from "@/hooks/useIsClient";
+import { isAppHost } from "@/lib/host";
 
 export default function Home() {
-  // The whole editor is browser-only, so the prerendered page is just a shell.
+  // Both the pitch and the editor are browser-only: the editor renders decks
+  // against a real DOM, and which of the two you get depends on the host.
   if (!useIsClient()) {
     return (
       <div className="app">
@@ -18,5 +21,5 @@ export default function Home() {
     );
   }
 
-  return <Workspace />;
+  return isAppHost() ? <Workspace /> : <Landing />;
 }

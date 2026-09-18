@@ -1,11 +1,11 @@
 "use client";
 
 import { create } from "zustand";
-import { SAMPLE_DECK } from "./sample";
 import type { AssetRecord } from "./assets";
+import { type DeckRecord, saveDeckContent } from "./decks";
+import { syncDeckUrl } from "./host";
 
-const SOURCE_KEY = "presentation.md:source";
-const THEME_KEY = "presentation.md:theme";
+const LAST_DECK_KEY = "presentation.md:lastDeckId";
 
 export interface AssetEntry {
   record: AssetRecord;
@@ -13,6 +13,10 @@ export interface AssetEntry {
 }
 
 interface DeckState {
+  /** Which stored deck is open. Null only before hydration finishes. */
+  deckId: string | null;
+  /** The open deck's URL name; the address bar follows it. */
+  deckSlug: string | null;
   source: string;
   /** Theme picked in the toolbar; empty means "use the front matter value". */
   themeOverride: string;
@@ -34,26 +38,48 @@ interface DeckState {
   setPresenting: (presenting: boolean) => void;
   toggleNotes: () => void;
   addAssets: (entries: AssetEntry[]) => void;
-  hydrate: () => void;
+  /** Swaps the open deck for a stored one, without touching what is on disk. */
+  openDeck: (record: DeckRecord) => void;
 }
 
 let saveTimer: ReturnType<typeof setTimeout> | undefined;
 
-function save(source: string, themeOverride: string) {
-  if (typeof window === "undefined") return;
+/** Debounced write of the open deck to IndexedDB. */
+function scheduleSave(deckId: string | null, source: string, themeOverride: string) {
+  if (typeof window === "undefined" || !deckId) return;
   clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => {
-    try {
-      window.localStorage.setItem(SOURCE_KEY, source);
-      window.localStorage.setItem(THEME_KEY, themeOverride);
-    } catch {
-      // Storage can be full or blocked; the deck still works in memory.
-    }
+  saveTimer = setTimeout(async () => {
+    const slug = await saveDeckContent(deckId, source, themeOverride);
+    // Renaming a deck renames its URL.
+    if (useDeckStore.getState().deckId !== deckId) return;
+    if (slug !== useDeckStore.getState().deckSlug) useDeckStore.setState({ deckSlug: slug });
+    syncDeckUrl(slug);
   }, 400);
 }
 
+export function rememberLastDeck(deckId: string | null): void {
+  if (typeof window === "undefined") return;
+  try {
+    if (deckId) window.localStorage.setItem(LAST_DECK_KEY, deckId);
+    else window.localStorage.removeItem(LAST_DECK_KEY);
+  } catch {
+    // Remembering the last deck is a convenience, not a requirement.
+  }
+}
+
+export function lastDeckId(): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return window.localStorage.getItem(LAST_DECK_KEY);
+  } catch {
+    return null;
+  }
+}
+
 export const useDeckStore = create<DeckState>((set, get) => ({
-  source: SAMPLE_DECK,
+  deckId: null,
+  deckSlug: null,
+  source: "",
   themeOverride: "",
   currentSlide: 0,
   currentStep: 0,
@@ -66,12 +92,12 @@ export const useDeckStore = create<DeckState>((set, get) => ({
 
   setSource: (source) => {
     set({ source });
-    save(source, get().themeOverride);
+    scheduleSave(get().deckId, source, get().themeOverride);
   },
 
   setThemeOverride: (themeOverride) => {
     set({ themeOverride });
-    save(get().source, themeOverride);
+    scheduleSave(get().deckId, get().source, themeOverride);
   },
 
   setStepCounts: (stepCounts) => {
@@ -129,19 +155,20 @@ export const useDeckStore = create<DeckState>((set, get) => ({
       },
     }),
 
-  hydrate: () => {
-    if (get().hydrated || typeof window === "undefined") return;
-    try {
-      const source = window.localStorage.getItem(SOURCE_KEY);
-      const theme = window.localStorage.getItem(THEME_KEY);
-      set({
-        source: source ?? SAMPLE_DECK,
-        themeOverride: theme ?? "",
-        hydrated: true,
-      });
-    } catch {
-      set({ hydrated: true });
-    }
+  openDeck: (record) => {
+    clearTimeout(saveTimer);
+    rememberLastDeck(record.id);
+    syncDeckUrl(record.slug);
+    set({
+      deckId: record.id,
+      deckSlug: record.slug,
+      source: record.source,
+      themeOverride: record.themeOverride,
+      currentSlide: 0,
+      currentStep: 0,
+      presenting: false,
+      hydrated: true,
+    });
   },
 }));
 

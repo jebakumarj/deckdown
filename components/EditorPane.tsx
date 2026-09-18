@@ -109,18 +109,6 @@ export function EditorPane({ deck }: { deck: Deck }) {
           }}
         />
       </div>
-      <div className="editor-hint">
-        <span>
-          <code>***</code> new slide
-        </span>
-        <span>
-          <code>&lt;!-- step --&gt;</code> reveal
-        </span>
-        <span>
-          <code>&lt;!-- notes: … --&gt;</code> speaker notes
-        </span>
-        <span>drop or paste an image to embed it</span>
-      </div>
     </section>
   );
 }

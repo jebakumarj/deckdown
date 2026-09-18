@@ -27,6 +27,7 @@ export async function downloadDeckZip(
   source: string,
   theme: string,
   assets: Record<string, AssetEntry>,
+  name: string,
 ): Promise<void> {
   const zip = new JSZip();
   const usedIds = Array.from(collectAssetIds(source)).filter((id) => assets[id]);
@@ -48,7 +49,7 @@ export async function downloadDeckZip(
   const deck = renderDeck(source, { resolveAsset: (id) => paths.get(id) });
   const css = await collectDeckCss();
   const html = buildStandaloneHtml(deck, theme, css);
-  const title = deck.meta.title || "deck";
+  const title = deck.meta.title || name || "deck";
 
   zip.file("deck.md", portableSource);
   zip.file("index.html", html);

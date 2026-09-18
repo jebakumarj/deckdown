@@ -1,0 +1,4 @@
+# Each deck has its own URL (/monday-standup.md). Those paths are not files, so
+# hosts that support rewrites should serve the app shell with a 200 instead of
+# falling back to 404.html. Static files still win over this rule.
+/*  /index.html  200

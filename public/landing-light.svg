@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label="">
+  <defs>
+    <radialGradient id="warm" cx="22%" cy="14%" r="62%">
+      <stop offset="0%" stop-color="#f6ddc8" stop-opacity="0.95" />
+      <stop offset="55%" stop-color="#f3e3d4" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#f4f4f2" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="ember" cx="82%" cy="8%" r="55%">
+      <stop offset="0%" stop-color="#e98a4e" stop-opacity="0.30" />
+      <stop offset="50%" stop-color="#e0a878" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#f4f4f2" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="sage" cx="12%" cy="92%" r="58%">
+      <stop offset="0%" stop-color="#c8d6c6" stop-opacity="0.70" />
+      <stop offset="100%" stop-color="#f4f4f2" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="blush" cx="88%" cy="88%" r="52%">
+      <stop offset="0%" stop-color="#e6c8b8" stop-opacity="0.62" />
+      <stop offset="100%" stop-color="#f4f4f2" stop-opacity="0" />
+    </radialGradient>
+
+    <linearGradient id="settle" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f4f4f2" stop-opacity="0" />
+      <stop offset="74%" stop-color="#f4f4f2" stop-opacity="0.34" />
+      <stop offset="100%" stop-color="#f4f4f2" stop-opacity="0.72" />
+    </linearGradient>
+
+    <!-- Faint slide outlines: the product, drawn as wallpaper. -->
+    <g id="slide">
+      <rect x="0" y="0" width="320" height="180" rx="10" fill="none" stroke="#2b2622" stroke-opacity="0.07" stroke-width="1.5" />
+      <path d="M28 52h150M28 88h250M28 124h96" stroke="#2b2622" stroke-opacity="0.05" stroke-width="1.5" stroke-linecap="round" />
+    </g>
+
+    <filter id="grain-light" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+    </filter>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#f4f4f2" />
+  <rect width="1600" height="1000" fill="url(#warm)" />
+  <rect width="1600" height="1000" fill="url(#ember)" />
+  <rect width="1600" height="1000" fill="url(#sage)" />
+  <rect width="1600" height="1000" fill="url(#blush)" />
+
+  <g>
+    <use href="#slide" transform="translate(96 132) rotate(-9)" />
+    <use href="#slide" transform="translate(1210 112) rotate(7)" />
+    <use href="#slide" transform="translate(1290 648) rotate(-6)" />
+    <use href="#slide" transform="translate(58 700) rotate(5)" />
+  </g>
+
+  <rect width="1600" height="1000" fill="url(#settle)" />
+  <rect width="1600" height="1000" filter="url(#grain-light)" opacity="0.055" />
+</svg>

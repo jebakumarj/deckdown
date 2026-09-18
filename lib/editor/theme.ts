@@ -100,7 +100,7 @@ function buildTheme(palette: Palette, isDark: boolean): Extension {
         fontFeatureSettings: '"liga" 0, "calt" 0',
       },
       ".cm-content": {
-        padding: "12px 0 40vh",
+        padding: "12px 0 24px",
         caretColor: palette.caret,
       },
       ".cm-cursor, .cm-dropCursor": { borderLeftColor: palette.caret, borderLeftWidth: "2px" },
