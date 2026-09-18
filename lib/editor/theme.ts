@@ -94,6 +94,10 @@ function buildTheme(palette: Palette, isDark: boolean): Extension {
         fontFamily:
           '"Cascadia Code", "JetBrains Mono", ui-monospace, Consolas, "Courier New", monospace',
         lineHeight: "1.6",
+        // No ligatures: markdown directives must read as `<!--` and `-->`,
+        // not as long dashes.
+        fontVariantLigatures: "none",
+        fontFeatureSettings: '"liga" 0, "calt" 0',
       },
       ".cm-content": {
         padding: "12px 0 40vh",

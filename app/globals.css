@@ -157,6 +157,8 @@ input {
 
 .editor-hint code {
   font-family: "Cascadia Code", ui-monospace, Consolas, monospace;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
   font-size: 11px;
   background: var(--shell-bg);
   border: 1px solid var(--shell-rule);
