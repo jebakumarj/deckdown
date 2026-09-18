@@ -1,4 +1,4 @@
-# presentation.md
+# deckdown
 
 Write markdown, get a beautiful minimal slide deck. Type in the left pane, watch
 the slideshow build itself on the right, then present it, export a PDF, or take

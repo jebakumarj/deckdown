@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping out. presentation.md is a small, deliberately minimal app;
+Thanks for helping out. deckdown is a small, deliberately minimal app;
 the bar for a change is that a deck stays easy to write and easy to read.
 
 ## Getting started

@@ -53,7 +53,7 @@ let pendingChoice: Promise<DeckRecord> | null = null;
 /**
  * Decides which deck to open, and loads the images it may reference.
  *
- * A deck's own URL (`/monday-standup.md`) opens it and `?new=1` starts an
+ * A deck's own URL (`/monday-standup`) opens it and `?new=1` starts an
  * empty deck; otherwise the last deck the user had open comes back. A
  * first-time visitor gets the sample deck, saved as their first real deck.
  */

@@ -1,5 +1,5 @@
 export const SAMPLE_DECK = `---
-title: presentation.md
+title: deckdown
 author: you
 theme: minimal-light
 transition: fade
@@ -7,7 +7,7 @@ transition: fade
 
 <!-- layout: center -->
 
-# presentation.md
+# deckdown
 
 Beautiful slides from plain markdown.
 

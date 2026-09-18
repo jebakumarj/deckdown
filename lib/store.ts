@@ -5,7 +5,9 @@ import type { AssetRecord } from "./assets";
 import { type DeckRecord, saveDeckContent } from "./decks";
 import { syncDeckUrl } from "./host";
 
-const LAST_DECK_KEY = "presentation.md:lastDeckId";
+const LAST_DECK_KEY = "deckdown:lastDeckId";
+/** The key this app used before it was renamed to deckdown. */
+const LEGACY_LAST_DECK_KEY = "presentation.md:lastDeckId";
 
 export interface AssetEntry {
   record: AssetRecord;
@@ -62,6 +64,7 @@ export function rememberLastDeck(deckId: string | null): void {
   try {
     if (deckId) window.localStorage.setItem(LAST_DECK_KEY, deckId);
     else window.localStorage.removeItem(LAST_DECK_KEY);
+    window.localStorage.removeItem(LEGACY_LAST_DECK_KEY);
   } catch {
     // Remembering the last deck is a convenience, not a requirement.
   }
@@ -70,7 +73,10 @@ export function rememberLastDeck(deckId: string | null): void {
 export function lastDeckId(): string | null {
   if (typeof window === "undefined") return null;
   try {
-    return window.localStorage.getItem(LAST_DECK_KEY);
+    return (
+      window.localStorage.getItem(LAST_DECK_KEY) ??
+      window.localStorage.getItem(LEGACY_LAST_DECK_KEY)
+    );
   } catch {
     return null;
   }

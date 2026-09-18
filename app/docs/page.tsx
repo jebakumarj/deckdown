@@ -4,7 +4,7 @@ import { DocsNav, type DocsSection } from "@/components/DocsNav";
 import { ScrollToTop } from "@/components/ScrollToTop";
 
 export const metadata: Metadata = {
-  title: "Writing decks · presentation.md",
+  title: "Writing decks · deckdown",
   description:
     "How to write a presentation in markdown: slides, reveals, speaker notes, images, themes.",
 };
@@ -82,7 +82,7 @@ export default function DocsPage() {
     <div className="docs">
       <header className="docs-header">
         <span className="brand">
-          presentation<span>.md</span>
+          deck<span>down</span>
         </span>
         <Link href="/" prefetch={false} className="button">
           Back to the editor
@@ -306,7 +306,7 @@ export default function DocsPage() {
             </li>
             <li>
               Every deck has its own address, taken from its name — a deck titled “Monday standup”
-              lives at <code>/monday-standup.md</code>. Bookmark it to come straight back.
+              lives at <code>/monday-standup</code>. Bookmark it to come straight back.
             </li>
             <li>
               Your decks are saved in this browser as you type, and listed on the home page. Save the{" "}

@@ -89,7 +89,7 @@ export function DeckLibrary({ onClose }: { onClose: () => void }) {
                 <span className="deck-library-name">{deck.title || UNTITLED}</span>
                 <span className="deck-library-meta">
                   {deck.slideCount} {deck.slideCount === 1 ? "slide" : "slides"} ·{" "}
-                  {relativeTime(deck.updatedAt)} · /{deck.slug}.md
+                  {relativeTime(deck.updatedAt)} · /{deck.slug}
                 </span>
               </span>
             </button>

@@ -19,6 +19,12 @@ export interface DeckRecord {
 export const UNTITLED = "Untitled deck";
 
 /**
+ * Names a deck cannot use, now that deck URLs sit at the root without an
+ * extension: they belong to real routes or to the export's own files.
+ */
+const RESERVED_SLUGS = new Set(["docs", "index", "app", "new", "404", "_next", "favicon"]);
+
+/**
  * A deck's name: its front matter title, else its first heading, else a
  * placeholder. Decks are never named separately from their content.
  */
@@ -46,9 +52,10 @@ export function slugify(title: string): string {
 
 /** The same slug where possible, suffixed when another deck already has it. */
 async function uniqueSlug(base: string, ownerId: string): Promise<string> {
-  const taken = new Set(
-    (await listDecks()).filter((deck) => deck.id !== ownerId).map((deck) => deck.slug),
-  );
+  const taken = new Set([
+    ...RESERVED_SLUGS,
+    ...(await listDecks()).filter((deck) => deck.id !== ownerId).map((deck) => deck.slug),
+  ]);
   if (!taken.has(base)) return base;
   for (let n = 2; n < 1000; n++) {
     const candidate = `${base}-${n}`;
@@ -65,10 +72,11 @@ export async function getDeckBySlug(slug: string): Promise<DeckRecord | undefine
 export function newDeckRecord(source = ""): DeckRecord {
   const now = Date.now();
   const title = deckTitle(source);
+  const base = slugify(title);
   return {
     id: newId(),
     title,
-    slug: slugify(title),
+    slug: RESERVED_SLUGS.has(base) ? `${base}-deck` : base,
     source,
     themeOverride: "",
     slideCount: countSlides(source),

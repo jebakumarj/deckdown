@@ -39,7 +39,11 @@ export function isSingleOrigin(): boolean {
 /** Routes that are real pages, never deck names. */
 const RESERVED_PATHS = new Set(["", "docs", "index.html", "404.html"]);
 
-/** The deck name in the current URL, e.g. `/monday-standup.md` -> `monday-standup`. */
+/**
+ * The deck name in the current URL: `/monday-standup` -> `monday-standup`.
+ * A trailing `.md` is still accepted so links made before decks dropped the
+ * extension keep working.
+ */
 export function deckSlugFromPath(): string | null {
   if (typeof window === "undefined") return null;
   const raw = decodeURIComponent(window.location.pathname).replace(/^\/+|\/+$/g, "");
@@ -51,7 +55,7 @@ export function deckSlugFromPath(): string | null {
 export function deckPath(slug: string): string {
   const params = typeof window === "undefined" ? null : new URLSearchParams(window.location.search);
   const suffix = params?.has("app") ? "?app=1" : "";
-  return `/${encodeURIComponent(slug)}.md${suffix}`;
+  return `/${encodeURIComponent(slug)}${suffix}`;
 }
 
 /** Points the address bar at the open deck without adding history entries. */

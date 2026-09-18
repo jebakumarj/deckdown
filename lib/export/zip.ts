@@ -10,11 +10,11 @@ import { deckFilename, triggerDownload } from "./download";
 
 const README = (title: string) => `${title}
 
-This zip was exported from presentation.md.
+This zip was exported from deckdown.
 
   index.html   open it in any browser to present offline
                (arrow keys or space to advance, S for speaker notes, F for fullscreen)
-  deck.md      the markdown source - paste it back into presentation.md to keep editing
+  deck.md      the markdown source - paste it back into deckdown to keep editing
   assets/      images used by the deck
 
 Everything is self-contained; no internet connection is needed.

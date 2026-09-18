@@ -3,7 +3,7 @@ import "katex/dist/katex.min.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "presentation.md",
+  title: "deckdown",
   description: "Write markdown, get a beautiful minimal slide deck.",
 };
 

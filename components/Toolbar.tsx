@@ -45,8 +45,8 @@ export function Toolbar({ deck, theme }: { deck: Deck; theme: string }) {
 
   return (
     <header className="toolbar">
-      <a className="brand brand-link" href={siteUrl("/")} title="presentation.md home">
-        presentation<span>.md</span>
+      <a className="brand brand-link" href={siteUrl("/")} title="deckdown home">
+        deck<span>down</span>
       </a>
       <span className="deck-switcher">
         <button

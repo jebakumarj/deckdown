@@ -6,6 +6,8 @@
  * which deck was open last.
  */
 
+// Deliberately still the pre-rename name: renaming the database would orphan
+// every deck already saved in people's browsers.
 const DB_NAME = "presentation-md";
 const DB_VERSION = 2;
 

@@ -107,7 +107,7 @@ const PLAYER_JS = `
  * small player. No network access required once it is unzipped.
  */
 export function buildStandaloneHtml(deck: Deck, theme: string, css: string): string {
-  const title = deck.meta.title || "presentation.md deck";
+  const title = deck.meta.title || "deckdown deck";
 
   const slides = deck.slides
     .map(

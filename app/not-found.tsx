@@ -6,7 +6,7 @@ import { useIsClient } from "@/hooks/useIsClient";
 import { appUrl, isAppHost, isSingleOrigin } from "@/lib/host";
 
 /**
- * Every deck has its own URL — `/monday-standup.md`. Those paths are not files
+ * Every deck has its own URL — `/monday-standup`. Those paths are not files
  * in the static export, so the host falls back to this page, which opens the
  * deck named in the path (see `useHydrateDeck`).
  *
@@ -27,7 +27,7 @@ export default function DeckRoute() {
       <div className="app">
         <header className="toolbar">
           <span className="brand">
-            presentation<span>.md</span>
+            deck<span>down</span>
           </span>
         </header>
         <main className="panes" />

@@ -23,7 +23,7 @@ export function Landing() {
     <div className="landing">
       <header className="landing-top">
         <span className="brand">
-          presentation<span>.md</span>
+          deck<span>down</span>
         </span>
         <a className="landing-doclink" href={appUrl("/docs")}>
           Docs

@@ -13,7 +13,7 @@ export default function Home() {
       <div className="app">
         <header className="toolbar">
           <span className="brand">
-            presentation<span>.md</span>
+            deck<span>down</span>
           </span>
         </header>
         <main className="panes" />
