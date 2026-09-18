@@ -1,0 +1,187 @@
+/* Structural styles shared by every theme. Themes only supply the tokens. */
+
+.deck {
+  --slide-width: 1280px;
+  --slide-height: 720px;
+  --step-duration: 220ms;
+  --slide-duration: 320ms;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.slide {
+  position: relative;
+  width: var(--slide-width);
+  height: var(--slide-height);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  padding: var(--slide-padding);
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 28px;
+  line-height: 1.55;
+  text-align: left;
+}
+
+.slide[data-layout="center"] {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.slide[data-layout="full"] {
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.slide[data-layout="full"] img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.slide > .step {
+  transition: opacity var(--step-duration) var(--ease),
+    transform var(--step-duration) var(--ease);
+}
+
+.slide > .step[data-visible="false"] {
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+}
+
+.slide h1,
+.slide h2,
+.slide h3 {
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+  letter-spacing: var(--heading-tracking);
+  line-height: 1.15;
+  margin: 0 0 0.4em;
+  text-wrap: balance;
+}
+
+.slide h1 { font-size: 2.1em; }
+.slide h2 { font-size: 1.5em; }
+.slide h3 { font-size: 1.15em; }
+
+.slide h1:only-child,
+.slide[data-layout="center"] h1 {
+  margin-bottom: 0.2em;
+}
+
+.slide p,
+.slide ul,
+.slide ol,
+.slide pre,
+.slide blockquote,
+.slide table {
+  margin: 0 0 0.75em;
+}
+
+/* Only the final group loses its trailing space; reveals keep their rhythm. */
+.slide > .step:last-child > :last-child { margin-bottom: 0; }
+
+.slide ul,
+.slide ol {
+  padding-left: 1.2em;
+}
+
+.slide li { margin-bottom: 0.3em; }
+
+.slide li::marker { color: var(--accent); }
+
+.slide a {
+  color: var(--accent);
+  text-underline-offset: 0.15em;
+}
+
+.slide strong { color: var(--fg-strong); }
+
+.slide em { color: var(--fg-muted); }
+
+.slide blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 0.8em;
+  color: var(--fg-muted);
+  font-style: italic;
+}
+
+.slide hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 1em 0;
+}
+
+.slide code {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  background: var(--code-bg);
+  color: var(--code-fg);
+  padding: 0.12em 0.32em;
+  border-radius: 4px;
+}
+
+.slide pre {
+  background: var(--code-bg);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 0.7em 0.9em;
+  overflow: auto;
+  font-size: 0.68em;
+  line-height: 1.5;
+}
+
+.slide pre code {
+  background: none;
+  padding: 0;
+  font-size: 1em;
+}
+
+.slide img {
+  max-width: 100%;
+  max-height: 480px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.slide img[data-missing-asset] {
+  min-width: 200px;
+  min-height: 80px;
+  border: 1px dashed var(--rule);
+}
+
+.slide table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.8em;
+}
+
+.slide th,
+.slide td {
+  border-bottom: 1px solid var(--rule);
+  padding: 0.4em 0.6em;
+  text-align: left;
+}
+
+.slide th { color: var(--fg-muted); font-weight: 600; }
+
+/* highlight.js tokens, mapped onto theme tokens so code matches the deck. */
+.slide .hljs-keyword,
+.slide .hljs-selector-tag,
+.slide .hljs-literal { color: var(--code-keyword); }
+.slide .hljs-string,
+.slide .hljs-attr { color: var(--code-string); }
+.slide .hljs-number,
+.slide .hljs-built_in { color: var(--code-number); }
+.slide .hljs-comment,
+.slide .hljs-quote { color: var(--fg-muted); font-style: italic; }
+.slide .hljs-title,
+.slide .hljs-function .hljs-title,
+.slide .hljs-section { color: var(--accent); }

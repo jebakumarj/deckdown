@@ -1,0 +1,46 @@
+/* PDF export: the browser print dialog renders one slide per landscape page. */
+
+.print-root { display: none; }
+
+@media print {
+  @page {
+    size: 1280px 720px;
+    margin: 0;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+
+  body > *:not(.print-root) { display: none !important; }
+
+  .print-root {
+    display: block;
+    position: static;
+  }
+
+  .print-root .slide {
+    width: 1280px;
+    height: 720px;
+    transform: none !important;
+    animation: none !important;
+    break-after: page;
+    page-break-after: always;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .print-root .slide:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  /* Fragments are all revealed on paper. */
+  .print-root .slide > .step[data-visible="false"] {
+    opacity: 1;
+    transform: none;
+  }
+}

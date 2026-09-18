@@ -1,0 +1,19 @@
+[data-theme="minimal-light"] {
+  --bg: #fdfdfc;
+  --fg: #23201d;
+  --fg-strong: #0f0d0c;
+  --fg-muted: #7b746d;
+  --accent: #c2410c;
+  --rule: #e6e2dc;
+  --code-bg: #f5f3f0;
+  --code-fg: #3c352f;
+  --code-keyword: #9a3412;
+  --code-string: #3f6212;
+  --code-number: #1d4ed8;
+  --font-body: ui-sans-serif, "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-heading: var(--font-body);
+  --font-mono: ui-monospace, "JetBrains Mono", "Cascadia Code", monospace;
+  --heading-weight: 650;
+  --heading-tracking: -0.02em;
+  --slide-padding: 90px 110px;
+}

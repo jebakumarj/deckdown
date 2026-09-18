@@ -1,0 +1,19 @@
+[data-theme="serif"] {
+  --bg: #fbf8f1;
+  --fg: #2f2a25;
+  --fg-strong: #171310;
+  --fg-muted: #857c70;
+  --accent: #7c3f21;
+  --rule: #e3dbcc;
+  --code-bg: #f3eee2;
+  --code-fg: #3a332b;
+  --code-keyword: #7c3f21;
+  --code-string: #4d6b2a;
+  --code-number: #2b5578;
+  --font-body: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-heading: var(--font-body);
+  --font-mono: ui-monospace, "Cascadia Code", monospace;
+  --heading-weight: 600;
+  --heading-tracking: 0;
+  --slide-padding: 100px 130px;
+}
