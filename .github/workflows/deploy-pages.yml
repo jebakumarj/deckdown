@@ -1,0 +1,61 @@
+# Publishes the static export to GitHub Pages.
+#
+# Set Settings -> Pages -> Source to "GitHub Actions" once; this workflow then
+# builds and deploys on every push to the branch below.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [gh-pages-setup]
+  workflow_dispatch:
+
+# Pages deployments need these; the default token is read-only.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it mid-upload.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/configure-pages@v5
+      - run: npm ci
+
+      - name: Build the static export
+        env:
+          # The promo page and the editor share one origin here, so links to
+          # the app stay on it and carry ?app=1 instead of an app. subdomain.
+          NEXT_PUBLIC_SINGLE_ORIGIN: "1"
+          # A project page is served from /<repo>. Set this to an empty string
+          # when the site has a custom domain or is a user/org page.
+          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+        run: npm run build
+
+      # Pages' branch-based serving runs Jekyll, which would skip /_next.
+      # Harmless here, and it keeps the export safe to publish either way.
+      - run: touch out/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

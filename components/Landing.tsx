@@ -1,7 +1,15 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { BrandLink } from "./BrandLink";
-import { appUrl } from "@/lib/host";
+import { appUrl, assetUrl } from "@/lib/host";
+
+// The backdrop lives in CSS, but its URL has to carry the deployment's base
+// path, which only JavaScript knows.
+const BACKDROP = {
+  "--landing-light": `url(${assetUrl("/landing-light.svg")})`,
+  "--landing-dark": `url(${assetUrl("/landing-dark.svg")})`,
+} as CSSProperties;
 
 const FEATURES = [
   {
@@ -21,7 +29,7 @@ const FEATURES = [
 /** Single-screen pitch, shown on the marketing host. */
 export function Landing() {
   return (
-    <div className="landing">
+    <div className="landing" style={BACKDROP}>
       <header className="landing-top">
         <BrandLink />
         <a className="landing-doclink" href={appUrl("/docs")}>

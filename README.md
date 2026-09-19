@@ -83,6 +83,34 @@ npm run build   # static export to ./out
 Next.js + TypeScript, with no backend. `npm run build` produces a fully static
 site you can host anywhere — GitHub Pages, Netlify, an S3 bucket.
 
+### Hosting
+
+By default the promo page and the editor are two hosts sharing one bundle:
+`example.com` shows the pitch, `app.example.com` shows the editor. Two
+environment variables adapt the build to hosts that cannot do that:
+
+| Variable | Effect |
+| --- | --- |
+| `NEXT_PUBLIC_SINGLE_ORIGIN=1` | Promo and editor share one origin; links to the app stay on it and carry `?app=1` |
+| `NEXT_PUBLIC_BASE_PATH=/repo` | The site is served from a sub-path rather than a domain root |
+
+### GitHub Pages
+
+[`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)
+builds with both of those set and publishes the result. To use it:
+
+1. In **Settings → Pages**, set **Source** to **GitHub Actions**.
+2. Push the branch named in the workflow's `on.push.branches`, or run it from
+   the Actions tab.
+
+The workflow derives `NEXT_PUBLIC_BASE_PATH` from the repository name, which is
+right for a project page at `user.github.io/repo`. For a custom domain or a
+`user.github.io` site, set that variable to an empty string instead.
+
+Deck URLs are not files, so Pages answers them with `404.html` — which is this
+app, and which opens the deck named in the path. The URL works; the status code
+is a 404 nobody sees.
+
 ### Layout
 
 | Path | What lives there |

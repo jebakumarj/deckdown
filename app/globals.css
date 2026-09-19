@@ -590,7 +590,7 @@ a.brand-link:hover span { filter: brightness(1.1); }
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-image: url("/landing-light.svg");
+  background-image: var(--landing-light, url("/landing-light.svg"));
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -598,7 +598,7 @@ a.brand-link:hover span { filter: brightness(1.1); }
 
 @media (prefers-color-scheme: dark) {
   .landing::before {
-    background-image: url("/landing-dark.svg");
+    background-image: var(--landing-dark, url("/landing-dark.svg"));
   }
 }
 
