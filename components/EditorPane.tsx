@@ -6,14 +6,21 @@ import { markdown } from "@codemirror/lang-markdown";
 import { languages } from "@codemirror/language-data";
 import { EditorView } from "@codemirror/view";
 import { usePrefersDark } from "@/hooks/useColorScheme";
+import { highlightActiveLineWhenCollapsed } from "@/lib/editor/activeLine";
+import { headingLevelAt } from "@/lib/editor/commands";
 import { vsCodeDark, vsCodeLight } from "@/lib/editor/theme";
 import type { Deck } from "@/lib/deck";
 import { slideIndexAtOffset } from "@/lib/deck";
 import { putAsset } from "@/lib/storage/assets";
 import { useDeckStore } from "@/lib/store";
+import { EditorToolbar } from "./EditorToolbar";
 
 // Fenced code blocks get real syntax highlighting, loaded on demand per language.
-const baseExtensions = [markdown({ codeLanguages: languages }), EditorView.lineWrapping];
+const baseExtensions = [
+  markdown({ codeLanguages: languages }),
+  EditorView.lineWrapping,
+  highlightActiveLineWhenCollapsed,
+];
 
 export function EditorPane({ deck }: { deck: Deck }) {
   const source = useDeckStore((state) => state.source);
@@ -28,7 +35,10 @@ export function EditorPane({ deck }: { deck: Deck }) {
   );
 
   const editorRef = useRef<ReactCodeMirrorRef>(null);
+  const imageInput = useRef<HTMLInputElement>(null);
   const [dropActive, setDropActive] = useState(false);
+  // Drives the toolbar's heading stepper, so it follows the caret.
+  const [headingLevel, setHeadingLevel] = useState<number | null>(null);
 
   /** Stores dropped/pasted images and writes an `asset:` reference at the caret. */
   const insertImages = useCallback(
@@ -64,6 +74,24 @@ export function EditorPane({ deck }: { deck: Deck }) {
 
   return (
     <section className={`pane editor${dropActive ? " drop-active" : ""}`}>
+      <EditorToolbar
+        getView={() => editorRef.current?.view ?? null}
+        headingLevel={headingLevel}
+        onInsertImage={() => imageInput.current?.click()}
+      />
+
+      <input
+        ref={imageInput}
+        type="file"
+        accept="image/*"
+        multiple
+        className="visually-hidden"
+        onChange={(event) => {
+          void insertImages(Array.from(event.target.files ?? []));
+          event.target.value = "";
+        }}
+      />
+
       <div
         className="editor-scroll"
         onDragOver={(event) => {
@@ -95,7 +123,7 @@ export function EditorPane({ deck }: { deck: Deck }) {
             lineNumbers: true,
             foldGutter: false,
             autocompletion: false,
-            highlightActiveLine: true,
+            highlightActiveLine: false,
             highlightActiveLineGutter: true,
             bracketMatching: true,
             closeBrackets: false,
@@ -106,6 +134,7 @@ export function EditorPane({ deck }: { deck: Deck }) {
             const offset = update.state.selection.main.head;
             const index = slideIndexAtOffset(deck, offset);
             if (index !== useDeckStore.getState().currentSlide) goToSlide(index);
+            setHeadingLevel(headingLevelAt(update.state));
           }}
         />
       </div>

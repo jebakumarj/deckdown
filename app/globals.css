@@ -174,6 +174,111 @@ a.brand-link:hover span { filter: brightness(1.1); }
   background: var(--editor-bg);
 }
 
+/* Formatting tools, pinned above the editor's own scrolling area. */
+.editor-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  flex: none;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 6px 10px;
+  background: var(--editor-bg);
+  border-bottom: 1px solid var(--shell-rule);
+}
+
+.editor-tools {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.editor-tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--shell-muted);
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.editor-tool:hover {
+  background: color-mix(in srgb, var(--shell-fg) 9%, transparent);
+  color: var(--shell-fg);
+}
+
+.editor-tool:active { background: color-mix(in srgb, var(--shell-accent) 18%, transparent); }
+
+/* Heading button with its level, and the stepper that changes it. */
+.editor-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.editor-tool.has-level {
+  width: auto;
+  min-width: 34px;
+  padding: 0 5px;
+  gap: 1px;
+}
+
+.editor-tool-level {
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1;
+}
+
+.editor-heading-steps {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+}
+
+.editor-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 13px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--shell-muted);
+  cursor: pointer;
+}
+
+.editor-step svg { width: 9px; height: 9px; }
+
+.editor-step.is-up svg { transform: rotate(180deg); }
+
+.editor-step:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--shell-fg) 9%, transparent);
+  color: var(--shell-fg);
+}
+
+.editor-step:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.editor-tool-sep {
+  width: 1px;
+  height: 18px;
+  margin: 0 5px;
+  background: var(--shell-rule);
+}
+
 .editor-scroll { flex: 1; min-height: 0; overflow: auto; }
 
 .editor-scroll .cm-editor { height: 100%; }
