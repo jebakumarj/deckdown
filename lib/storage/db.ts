@@ -14,7 +14,7 @@ const DB_VERSION = 2;
 export const ASSET_STORE = "assets";
 export const DECK_STORE = "decks";
 
-export function openDb(): Promise<IDBDatabase> {
+function openDb(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
 

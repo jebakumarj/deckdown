@@ -52,7 +52,7 @@ export function deckSlugFromPath(): string | null {
 }
 
 /** The path a deck lives at, keeping single-origin mode's ?app flag. */
-export function deckPath(slug: string): string {
+function deckPath(slug: string): string {
   const params = typeof window === "undefined" ? null : new URLSearchParams(window.location.search);
   const suffix = params?.has("app") ? "?app=1" : "";
   return `/${encodeURIComponent(slug)}${suffix}`;

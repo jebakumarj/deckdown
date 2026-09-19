@@ -9,7 +9,7 @@ import { usePrefersDark } from "@/hooks/useColorScheme";
 import { vsCodeDark, vsCodeLight } from "@/lib/editor/theme";
 import type { Deck } from "@/lib/deck";
 import { slideIndexAtOffset } from "@/lib/deck";
-import { putAsset } from "@/lib/assets";
+import { putAsset } from "@/lib/storage/assets";
 import { useDeckStore } from "@/lib/store";
 
 // Fenced code blocks get real syntax highlighting, loaded on demand per language.

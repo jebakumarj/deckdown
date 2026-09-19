@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { getDeck, listDecks, UNTITLED, type DeckRecord } from "@/lib/decks";
-import { useDeleteDeck, useNewDeck } from "@/hooks/useDeck";
+import { getDeck, listDecks, UNTITLED, type DeckRecord } from "@/lib/storage/decks";
+import { useDeleteDeck, useNewDeck } from "@/hooks/useDeckLibrary";
 import { useDeckStore } from "@/lib/store";
 import { PlusIcon, SlideIcon, TrashIcon } from "./icons";
 

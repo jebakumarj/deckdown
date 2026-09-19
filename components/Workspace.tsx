@@ -1,6 +1,7 @@
 "use client";
 
-import { useActiveTheme, useDeck, useHydrateDeck } from "@/hooks/useDeck";
+import { useActiveTheme, useDeck } from "@/hooks/useDeck";
+import { useHydrateDeck } from "@/hooks/useDeckLibrary";
 import { useSlideNavigation } from "@/hooks/useSlideNavigation";
 import { useDeckStore } from "@/lib/store";
 import { EditorPane } from "./EditorPane";
@@ -26,7 +27,7 @@ export function Workspace() {
 
   return (
     <div className="app deck" data-theme={theme} data-transition={deck.meta.transition}>
-      <Toolbar deck={deck} theme={theme} />
+      <Toolbar theme={theme} />
 
       <main className="panes">
         <EditorPane deck={deck} />

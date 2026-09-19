@@ -1,8 +1,8 @@
 "use client";
 
 import { create } from "zustand";
-import type { AssetRecord } from "./assets";
-import { type DeckRecord, saveDeckContent } from "./decks";
+import type { AssetRecord } from "./storage/assets";
+import { type DeckRecord, saveDeckContent } from "./storage/decks";
 import { syncDeckUrl } from "./host";
 
 const LAST_DECK_KEY = "deckdown:lastDeckId";

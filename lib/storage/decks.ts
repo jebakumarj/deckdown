@@ -1,6 +1,7 @@
 "use client";
 
 import { parseFrontMatter, splitSlides } from "@/lib/deck";
+import { slugify } from "@/lib/slug";
 import { DECK_STORE, isStorageAvailable, newId, withStore } from "./db";
 
 export interface DeckRecord {
@@ -39,15 +40,9 @@ export function deckTitle(source: string): string {
   return firstWords ? firstWords.slice(0, 60) : UNTITLED;
 }
 
-/** Turns a deck name into something that reads well in an address bar. */
-export function slugify(title: string): string {
-  const base = title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 60)
-    .replace(/-+$/, "");
-  return base || "untitled";
+/** A deck's URL name, with the fallback the library uses for unnamed decks. */
+function deckSlug(title: string): string {
+  return slugify(title) || "untitled";
 }
 
 /** The same slug where possible, suffixed when another deck already has it. */
@@ -72,7 +67,7 @@ export async function getDeckBySlug(slug: string): Promise<DeckRecord | undefine
 export function newDeckRecord(source = ""): DeckRecord {
   const now = Date.now();
   const title = deckTitle(source);
-  const base = slugify(title);
+  const base = deckSlug(title);
   return {
     id: newId(),
     title,
@@ -98,7 +93,7 @@ export async function listDecks(): Promise<DeckRecord[]> {
     );
     return decks
       // Decks saved before slugs existed get one on the way out.
-      .map((deck) => (deck.slug ? deck : { ...deck, slug: slugify(deck.title) }))
+      .map((deck) => (deck.slug ? deck : { ...deck, slug: deckSlug(deck.title) }))
       .sort((a, b) => b.updatedAt - a.updatedAt);
   } catch {
     return [];
@@ -136,11 +131,11 @@ export async function saveDeckContent(
 ): Promise<string> {
   const existing = await getDeck(id);
   const title = deckTitle(source);
-  const base = slugify(title);
+  const base = deckSlug(title);
   // Keep the deck's current slug when the name has not really changed, so the
   // URL does not churn on every keystroke.
   const slug =
-    existing && slugify(existing.title) === base ? existing.slug : await uniqueSlug(base, id);
+    existing && deckSlug(existing.title) === base ? existing.slug : await uniqueSlug(base, id);
   const now = Date.now();
 
   await putDeck({

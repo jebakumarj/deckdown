@@ -88,14 +88,6 @@ a.brand-link:hover span { filter: brightness(1.1); }
 
 .toolbar .spacer { flex: 1; }
 
-.toolbar .deck-title-static {
-  color: var(--shell-muted);
-  max-width: 320px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .button {
   display: inline-flex;
   align-items: center;
@@ -135,6 +127,17 @@ a.brand-link:hover span { filter: brightness(1.1); }
 }
 
 .button.icon:hover { color: var(--shell-fg); }
+
+/* An icon-only Present button keeps the filled look rather than the muted icon colour. */
+.button.primary.icon,
+.button.primary.icon:hover { color: #fff; }
+
+.button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.button:disabled:hover { border-color: var(--shell-rule); }
 
 .button.danger:hover {
   color: #dc2626;
@@ -177,8 +180,9 @@ a.brand-link:hover span { filter: brightness(1.1); }
 
 
 .preview {
-  padding: 22px;
-  gap: 16px;
+  /* Tight at the top so the theme bar sits close to the pane edge. */
+  padding: 10px 22px 22px;
+  gap: 10px;
   overflow: hidden;
 }
 
@@ -199,6 +203,14 @@ a.brand-link:hover span { filter: brightness(1.1); }
 
 .slide-frame .slide {
   transform-origin: top left;
+}
+
+.preview-top {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
 }
 
 .preview-bar {

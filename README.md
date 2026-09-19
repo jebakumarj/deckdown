@@ -5,7 +5,7 @@ the slideshow build itself on the right, then present it, export a PDF, or take
 the whole deck away as a zip.
 
 Everything runs in your browser. There is no account, no server and no upload:
-your deck lives in local storage and in the files you export.
+your decks live in this browser's storage and in the files you export.
 
 ## Features
 
@@ -89,8 +89,8 @@ site you can host anywhere — GitHub Pages, Netlify, an S3 bucket.
 | --- | --- |
 | `lib/deck/` | Framework-free parser and renderer: front matter, slide splitting, markdown, sanitizing |
 | `lib/export/` | Zip bundle, standalone HTML player, PDF/print helpers |
-| `lib/assets.ts` | Image storage in IndexedDB |
-| `lib/store.ts` | App state and local-storage autosave |
+| `lib/storage/` | Decks and images in IndexedDB |
+| `lib/store.ts` | App state and debounced autosave |
 | `components/`, `hooks/` | The editor UI |
 | `themes/` | Slide layout, themes, transitions, print stylesheet |
 

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BrandLink } from "@/components/BrandLink";
 import { DocsNav, type DocsSection } from "@/components/DocsNav";
 import { ScrollToTop } from "@/components/ScrollToTop";
 
 export const metadata: Metadata = {
-  title: "Writing decks · deckdown",
+  title: "Docs · deckdown",
   description:
     "How to write a presentation in markdown: slides, reveals, speaker notes, images, themes.",
 };
@@ -81,9 +82,7 @@ export default function DocsPage() {
   return (
     <div className="docs">
       <header className="docs-header">
-        <span className="brand">
-          deck<span>down</span>
-        </span>
+        <BrandLink />
         <Link href="/" prefetch={false} className="button">
           Back to the editor
         </Link>
@@ -99,7 +98,6 @@ export default function DocsPage() {
           builds itself on the right. Nothing is uploaded anywhere: your deck is saved in this
           browser and in the files you export.
         </p>
-
 
         <section id="slides">
           <h2>Slides</h2>

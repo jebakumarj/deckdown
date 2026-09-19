@@ -2,22 +2,28 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import type { Deck } from "@/lib/deck";
-import { THEMES, useDeckStore } from "@/lib/store";
-import { useDeleteDeck } from "@/hooks/useDeck";
-import { deckTitle } from "@/lib/decks";
+import { useDeckStore } from "@/lib/store";
+import { useDeleteDeck } from "@/hooks/useDeckLibrary";
+import { deckTitle } from "@/lib/storage/decks";
 import { DeckLibrary } from "./DeckLibrary";
-import { ChevronIcon, DocIcon, TrashIcon } from "./icons";
-import { siteUrl } from "@/lib/host";
+import { BrandLink } from "./BrandLink";
+import {
+  ChevronIcon,
+  DocIcon,
+  DownloadIcon,
+  OpenIcon,
+  PlayIcon,
+  PrintIcon,
+  SaveIcon,
+  TrashIcon,
+} from "./icons";
 import { exportPdf } from "@/lib/export/pdf";
 import { downloadDeckZip } from "@/lib/export/zip";
 import { deckFilename, triggerDownload } from "@/lib/export/download";
 
-export function Toolbar({ deck, theme }: { deck: Deck; theme: string }) {
+export function Toolbar({ theme }: { theme: string }) {
   const source = useDeckStore((state) => state.source);
   const setSource = useDeckStore((state) => state.setSource);
-  const themeOverride = useDeckStore((state) => state.themeOverride);
-  const setThemeOverride = useDeckStore((state) => state.setThemeOverride);
   const setPresenting = useDeckStore((state) => state.setPresenting);
   const assets = useDeckStore((state) => state.assets);
 
@@ -45,9 +51,7 @@ export function Toolbar({ deck, theme }: { deck: Deck; theme: string }) {
 
   return (
     <header className="toolbar">
-      <a className="brand brand-link" href={siteUrl("/")} title="deckdown home">
-        deck<span>down</span>
-      </a>
+      <BrandLink />
       <span className="deck-switcher">
         <button
           type="button"
@@ -64,19 +68,6 @@ export function Toolbar({ deck, theme }: { deck: Deck; theme: string }) {
 
       <span className="spacer" />
 
-      <select
-        className="select"
-        value={themeOverride || deck.meta.theme}
-        onChange={(event) => setThemeOverride(event.target.value)}
-        aria-label="Theme"
-      >
-        {THEMES.map((option) => (
-          <option key={option.id} value={option.id}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-
       <input
         ref={fileInput}
         type="file"
@@ -88,13 +79,21 @@ export function Toolbar({ deck, theme }: { deck: Deck; theme: string }) {
         }}
       />
 
-      <button type="button" className="button" onClick={() => fileInput.current?.click()}>
-        Open .md
+      <button
+        type="button"
+        className="button icon"
+        title="Open a markdown file"
+        aria-label="Open a markdown file"
+        onClick={() => fileInput.current?.click()}
+      >
+        <OpenIcon />
       </button>
 
       <button
         type="button"
-        className="button"
+        className="button icon"
+        title="Save the markdown file"
+        aria-label="Save the markdown file"
         onClick={() =>
           triggerDownload(
             new Blob([source], { type: "text/markdown;charset=utf-8" }),
@@ -102,15 +101,28 @@ export function Toolbar({ deck, theme }: { deck: Deck; theme: string }) {
           )
         }
       >
-        Save .md
+        <SaveIcon />
       </button>
 
-      <button type="button" className="button" onClick={() => void downloadZip()} disabled={busy}>
-        {busy ? "Zipping…" : "Download zip"}
+      <button
+        type="button"
+        className="button icon"
+        title={busy ? "Zipping…" : "Download the deck as a zip"}
+        aria-label={busy ? "Zipping…" : "Download the deck as a zip"}
+        onClick={() => void downloadZip()}
+        disabled={busy}
+      >
+        <DownloadIcon />
       </button>
 
-      <button type="button" className="button" onClick={() => void exportPdf()}>
-        PDF
+      <button
+        type="button"
+        className="button icon"
+        title="Export a PDF via the print dialog"
+        aria-label="Export a PDF"
+        onClick={() => void exportPdf()}
+      >
+        <PrintIcon />
       </button>
 
       <button
@@ -135,8 +147,14 @@ export function Toolbar({ deck, theme }: { deck: Deck; theme: string }) {
         <DocIcon />
       </Link>
 
-      <button type="button" className="button primary" onClick={() => setPresenting(true)}>
-        Present
+      <button
+        type="button"
+        className="button primary icon"
+        title="Present fullscreen"
+        aria-label="Present fullscreen"
+        onClick={() => setPresenting(true)}
+      >
+        <PlayIcon />
       </button>
     </header>
   );

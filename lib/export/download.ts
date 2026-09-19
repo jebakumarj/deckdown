@@ -1,5 +1,7 @@
 "use client";
 
+import { slugify } from "@/lib/slug";
+
 export function triggerDownload(blob: Blob, filename: string): void {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
@@ -13,10 +15,5 @@ export function triggerDownload(blob: Blob, filename: string): void {
 
 /** A filesystem-safe name derived from the deck title. */
 export function deckFilename(title: string, extension: string): string {
-  const base =
-    title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "") || "deck";
-  return `${base}.${extension}`;
+  return `${slugify(title) || "deck"}.${extension}`;
 }

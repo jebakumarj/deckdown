@@ -2,7 +2,7 @@
 
 import JSZip from "jszip";
 import { renderDeck } from "@/lib/deck";
-import { assetExtension, collectAssetIds } from "@/lib/assets";
+import { assetExtension, collectAssetIds } from "@/lib/storage/assets";
 import type { AssetEntry } from "@/lib/store";
 import { collectDeckCss } from "./css";
 import { buildStandaloneHtml } from "./standalone";

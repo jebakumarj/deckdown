@@ -1,5 +1,6 @@
 "use client";
 
+import { BrandLink } from "./BrandLink";
 import { appUrl } from "@/lib/host";
 
 const FEATURES = [
@@ -22,9 +23,7 @@ export function Landing() {
   return (
     <div className="landing">
       <header className="landing-top">
-        <span className="brand">
-          deck<span>down</span>
-        </span>
+        <BrandLink />
         <a className="landing-doclink" href={appUrl("/docs")}>
           Docs
         </a>

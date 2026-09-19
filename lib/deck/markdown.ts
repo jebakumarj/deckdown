@@ -64,5 +64,3 @@ md.renderer.rules.link_open = linkOpenRule;
 export function renderMarkdown(source: string, env: MarkdownEnv = {}): string {
   return md.render(source, env);
 }
-
-export { md };

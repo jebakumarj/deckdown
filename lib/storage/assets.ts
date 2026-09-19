@@ -17,7 +17,6 @@ export interface AssetRecord {
 
 const MAX_EDGE = 2000;
 
-
 export async function putAsset(file: File | Blob, name = "image"): Promise<AssetRecord> {
   const blob = await downscale(file);
   const record: AssetRecord = {
@@ -37,12 +36,6 @@ export async function getAllAssets(): Promise<AssetRecord[]> {
     return await withStore(ASSET_STORE, "readonly", (store) => store.getAll() as IDBRequest<AssetRecord[]>);
   } catch {
     return [];
-  }
-}
-
-export async function deleteAssets(ids: string[]): Promise<void> {
-  for (const id of ids) {
-    await withStore(ASSET_STORE, "readwrite", (store) => store.delete(id) as IDBRequest<undefined>);
   }
 }
 
