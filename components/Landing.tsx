@@ -1,7 +1,7 @@
 "use client";
 
+import Link from "next/link";
 import { BrandLink } from "./BrandLink";
-import { appUrl } from "@/lib/host";
 
 const FEATURES = [
   {
@@ -24,9 +24,9 @@ export function Landing() {
     <div className="landing">
       <header className="landing-top">
         <BrandLink />
-        <a className="landing-doclink" href={appUrl("/docs")}>
+        <Link className="landing-doclink" href="/docs" prefetch={false}>
           Docs
-        </a>
+        </Link>
       </header>
 
       <main className="landing-main">
@@ -42,10 +42,13 @@ export function Landing() {
         </p>
 
         <div className="landing-actions">
-          <a className="button primary large" href={appUrl("/")}>
+          {/* Both open the editor, which wants a document of its own. */}
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+          <a className="button primary large" href="/?app=1">
             Open the app
           </a>
-          <a className="button large" href={appUrl("/?new=1")}>
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+          <a className="button large" href="/?new=1">
             New presentation
           </a>
         </div>

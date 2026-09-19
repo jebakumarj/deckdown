@@ -3,11 +3,11 @@
 import { Landing } from "@/components/Landing";
 import { Workspace } from "@/components/Workspace";
 import { useIsClient } from "@/hooks/useIsClient";
-import { isAppHost } from "@/lib/host";
+import { isAppRoute } from "@/lib/host";
 
 export default function Home() {
   // Both the pitch and the editor are browser-only: the editor renders decks
-  // against a real DOM, and which of the two you get depends on the host.
+  // against a real DOM, and which of the two you get depends on the address.
   if (!useIsClient()) {
     return (
       <div className="app">
@@ -21,5 +21,5 @@ export default function Home() {
     );
   }
 
-  return isAppHost() ? <Workspace /> : <Landing />;
+  return isAppRoute() ? <Workspace /> : <Landing />;
 }

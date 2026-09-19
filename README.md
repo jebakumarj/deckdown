@@ -81,7 +81,17 @@ npm run build   # static export to ./out
 ```
 
 Next.js + TypeScript, with no backend. `npm run build` produces a fully static
-site you can host anywhere — GitHub Pages, Netlify, an S3 bucket.
+site you can host anywhere — Vercel, Netlify, an S3 bucket.
+
+### Hosting
+
+One origin serves both faces of the app: `/` is the promo page, and every other
+root-level path is a deck open in the editor — `/monday-standup`. Deck paths are
+not files in the export, so the host has to answer them with the app shell:
+[`vercel.json`](vercel.json) rewrites them to `index.html`, and
+[`public/_redirects`](public/_redirects) does the same on Netlify. Without a
+rule like that a deck URL still works, because the export's `404.html` is the
+same app, but it is served with a 404 status.
 
 ### Layout
 

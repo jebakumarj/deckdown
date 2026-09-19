@@ -1,20 +1,14 @@
-"use client";
-
-import { useIsClient } from "@/hooks/useIsClient";
-import { siteUrl } from "@/lib/host";
-
 /**
- * The wordmark, which always leads back to the promo page — from the editor,
- * from the docs and from the promo page itself.
+ * The wordmark, which always leads back to the promo page at the root — from
+ * the editor, from the docs and from the promo page itself.
  *
- * The href is only right once we know the host we are on, so the prerender
- * emits a plain "/" and the browser fills in the real URL after hydration.
+ * A plain anchor on purpose: leaving the editor should drop it, rather than
+ * carry its state into the promo page on a client-side navigation.
  */
 export function BrandLink({ title = "deckdown home" }: { title?: string }) {
-  const isClient = useIsClient();
-
   return (
-    <a className="brand brand-link" href={isClient ? siteUrl("/") : "/"} title={title}>
+    // eslint-disable-next-line @next/next/no-html-link-for-pages
+    <a className="brand brand-link" href="/" title={title}>
       deck<span>down</span>
     </a>
   );

@@ -1,40 +1,12 @@
 "use client";
 
 /**
- * The marketing page and the editor are the same static bundle served from two
- * hosts: `example.com` shows the pitch, `app.example.com` shows the editor. In
- * development that is `localhost:3000` and `app.localhost:3000`.
+ * One origin serves both faces of the app: `/` is the promo page, and every
+ * other root-level path is a deck open in the editor — `/monday-standup`.
  *
- * `?app=1` forces the editor, so the whole thing still works when both live on
- * a single host (a project page on GitHub Pages, say).
+ * Deck paths are not files in the static export, so the host falls back to the
+ * app shell, which reads the deck's name out of the address bar.
  */
-export function isAppHost(): boolean {
-  if (typeof window === "undefined") return false;
-  if (new URLSearchParams(window.location.search).has("app")) return true;
-  return window.location.hostname.startsWith("app.");
-}
-
-/** A URL on the app host, whichever host the current page is on. */
-export function appUrl(path = "/"): string {
-  if (typeof window === "undefined") return path;
-  const { protocol, hostname, host } = window.location;
-  const appHost = hostname.startsWith("app.") ? host : `app.${host}`;
-  return `${protocol}//${appHost}${path}`;
-}
-
-/** A URL on the marketing host, i.e. the same host without the `app.` prefix. */
-export function siteUrl(path = "/"): string {
-  if (typeof window === "undefined") return path;
-  const { protocol, hostname, host } = window.location;
-  if (!hostname.startsWith("app.")) return path;
-  return `${protocol}//${host.slice("app.".length)}${path}`;
-}
-
-/** True when the app and the marketing page share an origin (single-host setup). */
-export function isSingleOrigin(): boolean {
-  if (typeof window === "undefined") return true;
-  return new URL(appUrl("/")).origin === window.location.origin;
-}
 
 /** Routes that are real pages, never deck names. */
 const RESERVED_PATHS = new Set(["", "docs", "index.html", "404.html"]);
@@ -51,17 +23,22 @@ export function deckSlugFromPath(): string | null {
   return raw.replace(/\.md$/i, "") || null;
 }
 
-/** The path a deck lives at, keeping single-origin mode's ?app flag. */
-function deckPath(slug: string): string {
-  const params = typeof window === "undefined" ? null : new URLSearchParams(window.location.search);
-  const suffix = params?.has("app") ? "?app=1" : "";
-  return `/${encodeURIComponent(slug)}${suffix}`;
+/**
+ * Whether this page load belongs to the editor rather than the promo page: a
+ * deck's own path, or the root with one of the entry flags the promo page
+ * links to. The flags only survive until the open deck names itself, at which
+ * point the address bar switches to that deck's path.
+ */
+export function isAppRoute(): boolean {
+  if (typeof window === "undefined") return false;
+  const params = new URLSearchParams(window.location.search);
+  return params.has("app") || params.has("new") || deckSlugFromPath() !== null;
 }
 
 /** Points the address bar at the open deck without adding history entries. */
 export function syncDeckUrl(slug: string): void {
   if (typeof window === "undefined") return;
-  const next = deckPath(slug);
+  const next = `/${encodeURIComponent(slug)}`;
   if (window.location.pathname + window.location.search !== next) {
     window.history.replaceState(null, "", next);
   }
